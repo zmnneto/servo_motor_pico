@@ -18,7 +18,7 @@ void servo_init(uint gpio)
 
 void servo_angulo_pwm(float angle)
 {
-  if (angle < SERVO_MIN_ANGLE) angle = 0.0f;
+  if (angle < SERVO_MIN_ANGLE) angle = SERVO_MIN_ANGLE;
   else if (angle > SERVO_MAX_ANGLE) angle = SERVO_MAX_ANGLE;
 
 uint16_t pulso_us = SERVO_MIN_US + (angle / SERVO_MAX_ANGLE)* (SERVO_MAX_US - SERVO_MIN_US);
