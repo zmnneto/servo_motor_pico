@@ -1,14 +1,13 @@
+//https://github.com/raspberrypi/pico-examples/blob/master/i2c/ssd1306_i2c/ssd1306_i2c.c#L104
+
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/pwm.h"
 #include "hardware/i2c.h"
+#include "pico/stdlib.h"
+
 #include "define.h"
 
-//kkkkk vi um nerdola fazendo em .go, find about it!
-void i2c_init_display(){
-  i2c_init(I2C_MODULE, DISPLAY_FREQ);
-  gpio_set_function(,GPIO_SET_I2C)
-}
 void servo_init(uint gpio)
 {
   gpio_set_function(gpio, GPIO_FUNC_PWM);
@@ -35,27 +34,44 @@ void servo_angle_pwm(float angle)
   
 }
 
-
 int main() {
+  
   stdio_init_all();
 
   servo_init(GPIO_SERVO);
+
   
-  gpio_init(push_btn);
-  gpio_set_dir(push_btn, GPIO_IN);
-  gpio_pull_up(push_btn);
+  gpio_init(push_btn_p);
+  gpio_set_dir(push_btn_p, GPIO_IN);
+  gpio_pull_up(push_btn_p);
+
+    
+  gpio_init(push_btn_m);
+  gpio_set_dir(push_btn_m, GPIO_IN);
+  gpio_pull_up(push_btn_m);
 
   servo_angle_pwm(angle);
   
   while(true){
 
-    if(!gpio_get(push_btn))
+    if(!gpio_get(push_btn_p))
     {
         angle += 10;
-          if(angle > SERVO_MAX_ANGLE) angle = SERVO_MIN_ANGLE;
-            servo_angle_pwm(angle);
-            sleep_ms(300);  
-              
+        
+          if(angle > SERVO_MAX_ANGLE)
+          {
+              angle = SERVO_MIN_ANGLE;
+          } 
+          servo_angle_pwm(angle);
+          sleep_ms(300);  
+    }
+    else if(!gpio_get(push_btn_m)){
+      angle -= 10;
+        if(angle < SERVO_MIN_ANGLE){
+          angle = SERVO_MIN_ANGLE;
+        }
+        servo_angle_pwm(angle);
+        sleep_ms(300);
     }
   }
 
