@@ -1,4 +1,5 @@
 //https://github.com/raspberrypi/pico-examples/blob/master/i2c/ssd1306_i2c/ssd1306_i2c.c#L104
+// THERE IS A GPIO_SET_PULLS(BOOL, BOOL);
 
 #include <stdio.h>
 #include "pico/stdlib.h"
