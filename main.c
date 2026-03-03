@@ -1,5 +1,4 @@
 //https://github.com/raspberrypi/pico-examples/blob/master/i2c/ssd1306_i2c/ssd1306_i2c.c#L104
-//https://github.com/raspberrypi/pico-examples/blob/master/i2c/ssd1306_i2c/ssd1306_i2c.c#L104
 
 #include <stdio.h>
 #include "pico/stdlib.h"
@@ -39,7 +38,7 @@ void control_servo_wButtons(){
       if(!gpio_get(push_btn_p))
     {
         angle += 10;
-      
+        
           if(angle > SERVO_MAX_ANGLE)
           {
               angle = SERVO_MIN_ANGLE;
@@ -57,19 +56,24 @@ void control_servo_wButtons(){
     }
 }
 
-int main() {
-  stdio_init_all();
-
+void initializing(){
   servo_init(GPIO_SERVO);
 
   gpio_init(push_btn_p);
   gpio_set_dir(push_btn_p, GPIO_IN);
   gpio_pull_up(push_btn_p);
-  
+
+    
   gpio_init(push_btn_m);
   gpio_set_dir(push_btn_m, GPIO_IN);
   gpio_pull_up(push_btn_m);
-  
+
+}
+
+int main() {
+  stdio_init_all();
+
+  initializing();
   servo_angle_pwm(angle);
   
   while(true){
